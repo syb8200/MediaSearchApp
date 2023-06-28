@@ -16,6 +16,7 @@ class SearchViewModel(private val searchRepository: SearchRepository) : ViewMode
     private val _showLoading = MutableLiveData<Boolean>()
     val showLoading : LiveData<Boolean> get() = _showLoading
 
+    // 다수의 Observable을 한 번에 폐기하고 싶을 때 CompositeDisposable 사용
     private var disposable : CompositeDisposable? = CompositeDisposable()
 
     override fun onCleared() {
