@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.practice.fc_3_chapter5.model.ImageItem
 import com.practice.fc_3_chapter5.model.ListItem
+import com.practice.fc_3_chapter5.model.VideoItem
 import com.practice.fc_3_chapter5.repository.SearchRepository
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
@@ -35,6 +37,33 @@ class SearchViewModel(private val searchRepository: SearchRepository) : ViewMode
                 _listLiveData.value = emptyList()  // 실패
             })
         )
+    }
+
+    fun toggleFavorite(item: ListItem) {
+        // SearchFragment 안에서도 클릭을 했을 때 하트의 상태가 변하기 때문에 livedata를 업데이트 시켜줘야 한다.
+        _listLiveData.value = _listLiveData.value?.map {
+            if (it == item) {
+                when(it) {
+                    is ImageItem -> {
+                        it.copy(isFavorite = !item.isFavorite)
+                    }
+                    is VideoItem -> {
+                        it.copy(isFavorite = !item.isFavorite)
+                    }
+                    else -> {
+                        it
+                    }
+                }.also { changeItem ->
+                    if (Common.favoritesList.contains(item)) {
+                        Common.favoritesList.remove(item)
+                    } else {
+                        Common.favoritesList.add(changeItem)
+                    }
+                }
+            } else {
+                it
+            }
+        }
     }
 
     // ViewModelFactory는 ViewModel을 통해 전달되는 인자가 있을 때 사용된다.

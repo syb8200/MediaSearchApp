@@ -8,7 +8,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.practice.fc_3_chapter5.databinding.FragmentSearchBinding
+import com.practice.fc_3_chapter5.list.ItemHandler
 import com.practice.fc_3_chapter5.list.ListAdapter
+import com.practice.fc_3_chapter5.model.ListItem
 import com.practice.fc_3_chapter5.repository.SearchRepositoryImpl
 
 class SearchFragment : Fragment() {
@@ -18,7 +20,7 @@ class SearchFragment : Fragment() {
         SearchViewModel.SearchViewModelFactory(SearchRepositoryImpl(RetrofitManager.searchService))
     }
 
-    private val adapter by lazy { ListAdapter() }
+    private val adapter by lazy { ListAdapter(Handler(viewModel)) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,6 +64,13 @@ class SearchFragment : Fragment() {
                 }
             }
             adapter.submitList(it)
+        }
+    }
+
+    class Handler(private val viewModel: SearchViewModel) : ItemHandler {
+        override fun onClickFavorite(item: ListItem) {
+            // 클릭했을 때 common에 데이터를 넣어주는 작업 수행
+            viewModel.toggleFavorite(item)
         }
     }
 }

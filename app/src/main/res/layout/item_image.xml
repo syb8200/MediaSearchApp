@@ -7,6 +7,10 @@
         <variable
             name="item"
             type="com.practice.fc_3_chapter5.model.ImageItem" />
+
+        <variable
+            name="handler"
+            type="com.practice.fc_3_chapter5.list.ItemHandler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -65,6 +69,7 @@
             android:id="@+id/favoriteImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> handler.onClickFavorite(item)}"
             app:favorite="@{item.favorite}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

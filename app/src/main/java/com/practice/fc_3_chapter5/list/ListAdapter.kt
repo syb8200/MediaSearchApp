@@ -13,7 +13,9 @@ import com.practice.fc_3_chapter5.list.ViewHolder.VideoViewHolder
 import com.practice.fc_3_chapter5.model.ImageItem
 import com.practice.fc_3_chapter5.model.ListItem
 
-class ListAdapter : ListAdapter<ListItem, RecyclerView.ViewHolder>(diffUtil) {
+class ListAdapter(
+    private val itemHandler: ItemHandler? = null
+) : ListAdapter<ListItem, RecyclerView.ViewHolder>(diffUtil) {
 
     override fun getItemViewType(position: Int): Int {
         return if (getItem(position) is ImageItem) IMAGE else VIDEO
@@ -22,9 +24,9 @@ class ListAdapter : ListAdapter<ListItem, RecyclerView.ViewHolder>(diffUtil) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return if (viewType == IMAGE) {
-            ImageViewHolder(ItemImageBinding.inflate(inflater, parent, false))
+            ImageViewHolder(ItemImageBinding.inflate(inflater, parent, false), itemHandler)
         } else {
-            VideoViewHolder(ItemVideoBinding.inflate(inflater, parent, false))
+            VideoViewHolder(ItemVideoBinding.inflate(inflater, parent, false), itemHandler)
         }
     }
 
